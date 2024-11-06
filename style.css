@@ -1,0 +1,176 @@
+@import url(https://fonts.bunny.net/css?family=creepster:400|poppins:300,400,600,800);
+
+body {
+	background: rgb(19, 1, 24);
+	min-height: 100svh;
+	display: grid;
+	place-content: center;
+	gap: 8rem;
+	font-family: "Poppins", sans-serif;
+	background-image: url("https://raw.githubusercontent.com/cbolson/icodethis-challenges/main/assets/halloween/web-t-left.png");
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+}
+
+@property --angle {
+	syntax: "<angle>";
+	initial-value: 0deg;
+	inherits: false;
+}
+@property --color {
+	syntax: "<color>";
+	initial-value: hotpink;
+	inherits: false;
+}
+
+button {
+	--neon-clr-1: rgb(194, 65, 12);
+	--neon-clr-2: rgb(250, 204, 21);
+
+	--btn-radius: 10px;
+	--btn-border-clr: rgba(255 255 255 / 0.2);
+	--btn-bg-clr: rgba(255 255 255 / 0.75);
+
+	font-family: "Creepster", display;
+	letter-spacing: 0.2rem;
+	cursor: pointer;
+
+	border: 1px solid var(--btn-border-clr);
+	border-radius: var(--btn-radius);
+	background-color: var(--btn-bg-clr);
+	outline: none;
+
+	padding: 1rem 2rem;
+	/*backdrop-filter: blur(15px);*/
+	font-size: clamp(1.2rem, 2.5vw + 0.25rem, 4rem);
+	color: transparent;
+	text-transform: uppercase;
+	position: relative;
+	background-clip: text;
+	text-align: center;
+
+	transition: background-color 300ms ease-in-out;
+
+	background-image: url("https://raw.githubusercontent.com/cbolson/icodethis-challenges/main/assets/halloween/bats-2.gif");
+	background-size: cover;
+}
+button:focus-visible,
+button:hover,
+label:hover {
+	--bg-blur: 15px;
+	--bg-inset: -1rem;
+	--bg-opacity: 0.75;
+	--btn-bg-clr: rgba(255 255 255 / 0.85);
+}
+
+/* gradient rotation */
+label::before,
+button::before {
+	content: "";
+	position: absolute;
+	inset: var(--bg-inset, -1rem);
+	background-image: conic-gradient(
+		from var(--angle),
+		transparent,
+		var(--color),
+		transparent
+	);
+	z-index: -1;
+	border-radius: 999vw;
+	animation: neon-rotate 3s linear infinite;
+
+	filter: blur(var(--bg-blur, 10px));
+	opacity: var(--bg-opacity, 0.25);
+	transition: inset, opacity, filter;
+	transition-duration: 300ms;
+	transition-timing-function: ease-in-out;
+}
+
+/* active button image */
+button::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	opacity: 0;
+	filter: blur(20px);
+	background-image: var(--bg-img);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: right bottom;
+
+	border-bottom-right-radius: inherit;
+	width: 100%;
+	height: var(--bg-img-height, 200px);
+
+	transition: opacity 500ms ease-in-out, filter 500ms ease-in-out;
+}
+button.active::after {
+	opacity: 1;
+	filter: blur(0);
+	transition-delay: 0, 300ms;
+}
+
+@keyframes neon-rotate {
+	from {
+		--angle: 0deg;
+		--color: orange;
+	}
+	50% {
+		--color: purple;
+	}
+	to {
+		--angle: 360deg;
+		--color: orange;
+	}
+}
+
+label.switch {
+	--icon-on: 0;
+	--icon-off: 1;
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	cursor: pointer;
+	color: white;
+	display: grid;
+	grid-template-areas: "stack";
+	place-content: center;
+	/*background: rgba(194, 65, 12, 0.25);*/
+	width: 30px;
+	height: 30px;
+	padding: 0.5rem;
+	border-radius: 50%;
+	transition: background-color 300ms ease-in-out;
+	outline: 1px solid rgba(255 255 255 / 0.25);
+}
+label.switch:hover {
+	/*background-color: rgba(194, 65, 12, 0.5)*/
+}
+label.switch > svg {
+	width: 1.5rem;
+	grid-area: stack;
+	transition: scale 300ms ease-in-out;
+}
+label.switch > svg:first-of-type {
+	scale: var(--icon-on);
+}
+label.switch > svg:last-of-type {
+	scale: var(--icon-off);
+}
+label.switch:has(:checked) {
+	--icon-on: 1;
+	--icon-off: 0;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
